@@ -56,7 +56,7 @@ def make_video(source, title, from_pickle=True):
 
 	nb_images = len(images)
 	for idx, img in enumerate(images):
-		img = cv2.resize(img, (640, 480))
+		img = cv2.resize(img.astype('uint8'), (640, 480))
 		writer.write(img)
 		logger.sucess(f'frame was created {idx:05d}/{nb_images}')
 
