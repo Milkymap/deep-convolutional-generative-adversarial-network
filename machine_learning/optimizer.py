@@ -86,8 +86,8 @@ def main_loop(root, z_dim, fmap_dim, desc_in_channel, nb_epochs, batch_size, cv_
 		counter = counter + 1
 	# end loop 
 	
-	#th.save(generator, 'storage/generator.pt')
-	#th.save(descriminator, 'storage/descriminator.pt')
+	th.save(generator, 'storage/generator.pt')
+	th.save(descriminator, 'storage/descriminator.pt')
 	with open('storage/timelapse.pkl', 'wb') as fp:
 		pickle.dump(accumulator, fp)
 
