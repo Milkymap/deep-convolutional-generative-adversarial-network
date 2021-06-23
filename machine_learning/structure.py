@@ -15,8 +15,8 @@ class Generator(nn.Module):
 		self.depth = np.log2(fmap_dim) - 1
 		if fmap_dim > 1 and self.depth.is_integer():
 			self.conv_layers = nn.ModuleList([])
-			self.activations = []
-			self.normalizers = []
+			self.activations = nn.ModuleList([])
+			self.normalizers = nn.ModuleList([])
 			
 			p_val = z_dim 
 			q_val = fmap_dim
@@ -41,11 +41,11 @@ class Generator(nn.Module):
 		else:
 			raise ValueError('fmap_dim should be a power of 2 and greater than 1')
 
-	def forward(self, X):
-		reducer = lambda acc, crr: ft.reduce(lambda E, layer : layer(E), crr, acc)
-		iterable = list(zip(self.conv_layers, self.normalizers, self.activations))
-		return ft.reduce(reducer, iterable, X)
-
+	def forward(self, X0):
+		X1 = self.activations[0](self.normalizers[0](self.conv_layers[0](X0)))
+		for idx in range(1, len(self.conv_layers)):
+			X1 = self.activations[idx](self.normalizers[idx](self.conv_layers[idx](X1)))
+		return X1 
 
 class Descriminator(nn.Module):
 	def __init__(self, in_channel, fmap_dim):
@@ -53,8 +53,8 @@ class Descriminator(nn.Module):
 		self.depth = np.log2(fmap_dim) - 1
 		if fmap_dim > 1 and self.depth.is_integer():
 			self.conv_layers = nn.ModuleList([])
-			self.activations = []
-			self.normalizers = []
+			self.activations = nn.ModuleList([])
+			self.normalizers = nn.ModuleList([])
 			
 			p_val = in_channel
 			q_val = fmap_dim
@@ -78,11 +78,11 @@ class Descriminator(nn.Module):
 		else:
 			raise ValueError('fmap_dim should be a power of 2 and greater than 1')
 
-	def forward(self, X):
-		reducer = lambda acc, crr: ft.reduce(lambda E, layer : layer(E), crr, acc)
-		iterable = list(zip(self.conv_layers, self.normalizers, self.activations))
-		return ft.reduce(reducer, iterable, X)
-
+	def forward(self, X0):
+		X1 = self.activations[0](self.normalizers[0](self.conv_layers[0](X0)))
+		for idx in range(1, len(self.conv_layers)):
+			X1 = self.activations[idx](self.normalizers[idx](self.conv_layers[idx](X1)))
+		return X1 
 
 if __name__ == '__main__':
 	desc = Descriminator(in_channel=3, fmap_dim=64)
