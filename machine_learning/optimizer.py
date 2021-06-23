@@ -39,7 +39,7 @@ def main_loop(root, z_dim, fmap_dim, desc_in_channel, nb_epochs, batch_size, cv_
 	criterion = nn.BCELoss()
 	descriminator_solver = optim.Adam(descriminator.parameters(), lr=0.0002, betas=(0.5, 0.999))
 	generator_solver = optim.Adam(generator.parameters(), lr=0.0002, betas=(0.5, 0.999))
-	distribution = th.randn((64, z_dim, 1, 1))
+	distribution = th.randn((64, z_dim, 1, 1), device=device)
 	accumulator = []
 	message = '[%03d/%03d]:%05d | E_D : %07.3f | E_G : %07.3f'
 	counter = 0
