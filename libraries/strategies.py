@@ -49,7 +49,7 @@ def make_video(source, title, from_pickle=True):
 	fourcc = cv2.VideoWriter_fourcc(*'DIVX')
 	writer = cv2.VideoWriter(title, fourcc, 10, (640, 480), True)
 	if from_pickle:
-		images = pickle.load(source, 'rb')
+		images = pickle.load(open(source, 'rb'))
 	else:
 		image_paths = glob(path.join(source, '*'))
 		images = [ read_image(i_path, by='cv') for i_path in image_paths]
