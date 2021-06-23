@@ -9,9 +9,8 @@ from torchvision import transforms as T
 
 to_pil = T.ToPILImage()
 images = pickle.load(open('storage/timelapse.pkl', 'rb'))
+nb_images = len(images)
 idx = 0
-next_frame = False 
-previous_frame = False 
 
 with st.sidebar:
 	st.header("uploaded image")
@@ -34,15 +33,5 @@ with st.sidebar:
 
 with st.beta_container():
 	st.header('generative adversarial network')
-	left, right = st.beta_columns(2)
-	with left:
-		next_frame = st.button('next')
-	with right:
-		previous_frame = st.button('previous')
-	
-	if next_frame:
-		idx = idx + 1
-	if previous_frame: 	
-		idx = idx - 1
-
+	idx = st.slider('frame number', 0, nb_images)
 	st.image(to_pil(cv2th(images[idx])))
