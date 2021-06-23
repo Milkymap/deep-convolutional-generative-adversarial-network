@@ -12,6 +12,8 @@ from os import path
 from glob import glob 
 from torchvision import transforms as T 
 
+from .log import logger 
+
 def pull_files(target, rule):
 	return glob(path.join(target, rule))
 
@@ -41,3 +43,20 @@ def create_image_mapper(size):
         T.ToTensor(),
         T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 	])
+
+def make_video(source, from_pickle=True):
+	fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+	writer = cv2.VideoWriter('acc.avi', fourcc, 10, (640, 480), True)
+	if from_pickle:
+		images = pickle.load(source, 'rb')
+	else:
+		image_paths = glob(path.join(source, '*'))
+		images = [ read_image(i_path, by='cv') for i_path in image_paths]
+
+	nb_images = len(images)
+	for idx, img in enumerate(images):
+		img = cv2.resize(img, (640, 480))
+		writer.write(img)
+		logger.sucess(f'frame was created {idx:05d}/{nb_images}')
+
+	writer.release()
