@@ -8,7 +8,7 @@ from glob import glob
 from torchvision import transforms as T 
 
 to_pil = T.ToPILImage()
-images = pickle.load(open('storage/timelapse.pkl'), 'rb')
+images = pickle.load(open('storage/timelapse.pkl', 'rb'))
 idx = 0
 next_frame = False 
 previous_frame = False 
@@ -44,5 +44,5 @@ with st.beta_container():
 		idx = idx + 1
 	if previous_frame: 	
 		idx = idx - 1
-		
+
 	st.image(to_pil(cv2th(images[idx])))
