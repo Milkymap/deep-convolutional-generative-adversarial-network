@@ -34,7 +34,7 @@ def cv2th(bgr_image):
 	return th.from_numpy(np.stack([red, green, blue]))
 
 def to_grid(batch_images, nb_rows=8, padding=10, normalize=False):
-	grid_images = tv.utils.make_grid(batch_images, nrow=nb_rows, padding=padding, normalize=normalize)
+	grid_images = tv.utils.make_grid(batch_images, nrow=nb_rows, padding=padding)
 	return grid_images
 
 def create_image_mapper(size):

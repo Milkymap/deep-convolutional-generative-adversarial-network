@@ -78,6 +78,7 @@ def main_loop(root, z_dim, fmap_dim, desc_in_channel, nb_epochs, batch_size, cv_
 				grid_images = to_grid(response, normalize=True)
 				grid_images = th2cv(grid_images)
 				if cv_display:
+					print(grid_images)
 					cv2.imshow('000', grid_images)
 					cv2.waitKey(5)
 				if idx % 16 == 0:
