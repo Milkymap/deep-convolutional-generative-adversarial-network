@@ -10,7 +10,7 @@ from torchvision import transforms as T
 video_path = os.getenv('SUMMARY')
 print(video_path)
 to_pil = T.ToPILImage()
-image_paths = glob('source-data/*.jpg')
+images = pickle.load(open('storage/timelapse.pkl'), 'rb')
 
 with st.sidebar:
 	st.header("uploaded image")
@@ -35,3 +35,5 @@ with st.beta_container():
 	st.header('generative adversarial network')
 	if video_path is not None:
 		st.video(video_path)
+	else:
+		st.image(to_pil(cv2th(images[0])))
